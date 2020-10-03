@@ -1,5 +1,9 @@
 # Scrabble (In Progress)
-Scrabble created with Java and Eclipse IDE's GUI WindowBuilder  
+Welcome to my Scrabble board game project.  
+This game will single player vs computer.  
+
+###### **Motivation:**  
+I wanted to make this game because my predictions on the type of data structures will be used to create this game will be fun to work with and strenghten my skills on them.
 
 ###### **Theory**   
 
