@@ -3,7 +3,7 @@ Welcome to my Scrabble board game project.
 This game will be single player vs computer.  
 
 ###### **Motivation:**  
-I wanted to make this game because my predictions on the data structures will be used in this game will be fun to work with and strenghten my skills on them.
+I wanted to make this game because my predictions on the data structures used in this game will be fun to work and solidify with.
 
 ###### **Theory**  
   
