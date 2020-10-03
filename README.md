@@ -1,6 +1,6 @@
 # Scrabble (In Progress)
 Welcome to my Scrabble board game project.  
-This game will single player vs computer.  
+This game will be single player vs computer.  
 
 ###### **Motivation:**  
 I wanted to make this game because my predictions on the type of data structures will be used to create this game will be fun to work with and strenghten my skills on them.
