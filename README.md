@@ -16,8 +16,8 @@ Cell objects contain a string called bonus and will be assigned accordingly. (e.
 **Scrabble Cell**  
 
 ![Cell Adjacency Diagram](https://user-images.githubusercontent.com/54327713/94984360-d40a6a00-0510-11eb-9281-5bce37bad820.jpg)   
-(UPDATE 10/3/2020) We are going to get rid of the diaonal cells as you can't play diagonal tiles.  
-This diagram will help visualize the tile's adjacency of each tile on the board.  
+(UPDATE 10/3/2020) We are going to get rid of the diaonal cells as Scrabble doesn't allow diagonal plays.  
+This diagram will help visualize the tile's adjacency to other tiles on the board.  
 X refers to which row and Y is which column.
 Notice the formula near the arrow, this is going to be used when connecting all cells when initializing the board.
 While connecting the cell with its neighbors, if the formula outputs an x or y coordinate less than 0 or larger than 14 will cause the direction of that cells neighbor to be null. 
