@@ -41,7 +41,7 @@ Tiles are going to be the simplest design as it only holds a character and cores
 10 points: Q ×1, Z ×1  
   
 The bag is going to be in charge of creating tile objects identical to the list above in terms of quantity and property, place it into its Tile array, and then shuffle the array.  
-The game will remove tiles from this bag for player and computer to use.
+The game will remove tiles from this bag's Tile array and move it to the player and computer's rack array to use.
   
 **Player**  
   
