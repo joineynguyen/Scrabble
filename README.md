@@ -5,7 +5,7 @@ This game will be single player vs computer.
 ###### **Motivation:**  
 I wanted to make this game because my predictions on the data structures used in this game will be fun to work and solidify with.
 
-###### **Design**  
+###### **Design/Classes**  
   
 **Scrabble Board**  
 
@@ -49,7 +49,12 @@ The player will have a Tile array 'rack' for potential word play and an integer 
 They are able to shuffle the tiles in their rack as well as organize it so that tiles will hug the left side of the rack. These actions will be available on the GUI as a 'shuffle' button. The shuffle button will not do anything if the player's rack is empty or includes only one tile.  
 The player's button 'undo' will obviously undo their tile placement on the board and bring it back onto their rack (both array and GUI).  
 The button 'pass' will pass their turn and let the computer go if they have trouble making out words or for any strategic reason.  
-Finally, the button 'submit' will check the player's tile placement on the board if it does make a word. If a legit word is played, then the score is calculated and computer's turn. If not, nothing will happen.
+Finally, the button 'submit' will check the player's tile placement on the board if it does make a word. If a legit word is played, then the score is calculated and computer's turn. If not, nothing will happen.  
+  
+**Main/GUI**  
+  
+The GUI (currently called main) class deals with initializing all GUI panels, buttons, etc. After, it initializes the classes needed to run the game (e.g., Bag, Board, Cell, Player, Tile, Engine, Computer). For example, the 15 x 15 cell arraay located from the board object represents the scrabble board. Then, it connects these objects to the GUI, so when you press a button, an action is performed on the application and the object vaariables change. When the player clicks on the tile button in their rack panel, a variable "tileSelected" in the engine object copies the chosen element from the player object's rack array. After the player choses a tile from their rack, they may press any button on the scrabble board to transfer the "tileSelected" tile variable for the cell object located in the 15 x 15 cell matrix to hold as its own tile variable "Tile". This is only one action that the player may perform; please take a look the GUI java file for other actions as they are documented. 
+
 
 
 
