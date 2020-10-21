@@ -58,7 +58,11 @@ The computer class will inherit from the player class plus user automation metho
 **Main/GUI**  
   
 The GUI (currently called main) class deals with initializing all GUI panels, buttons, etc. After, it initializes the classes needed to run the game (e.g., Bag, Board, Cell, Player, Tile, Engine, Computer). For example, the 15 x 15 cell arraay located from the board object represents the scrabble board. Then, it connects these objects to the GUI, so when you press a button, an action is performed on the application and the object variables change. When the player clicks on the tile button in their rack panel, a variable "tileSelected" in the engine object copies the chosen element from the player object's rack array. After the player choses a tile from their rack, they may press any button on the scrabble board to transfer the "tileSelected" tile variable for the cell object located in the 15 x 15 cell matrix to hold as its own tile variable "Tile". This is only one action that the player may perform; please take a look at the GUI java file for other user actions as they are commented. 
-
+  
+**Engine**  
+  
+The engine class will mostly contain data structures and algorithms to verify user moves along with player, computer, and board objects to update scores/data. Are the tiles played all connected vertically or horizontally? Do the tiles form legit words? Do other words that the tiles we played connect to form legit words? What is the score of the word and/or connected words to the initial word play? Everything is calculated in this class. Tries are used to search up a dictionary to declare whether the word(s) played are legit. Stacks are used to keep up with the most recent buttons, tiles, and cells are played. When the player presses the 'undo' button, we pop any relevent stack and have undone an action. Hashmaps are used to locate which button on the scrabble board belongs to which cell in the cell matrix.
+  
 
 
 
