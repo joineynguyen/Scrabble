@@ -51,6 +51,10 @@ The player's button 'undo' will obviously undo their tile placement on the board
 The button 'pass' will pass their turn and let the computer go if they have trouble making out words or for any strategic reason.  
 Finally, the button 'submit' will check the player's tile placement on the board if it does make a word. If a legit word is played, then the score is calculated and computer's turn. If not, nothing will happen.  
   
+**Computer**  
+  
+The computer class will inherit from the player class plus user automation methods.  
+  
 **Main/GUI**  
   
 The GUI (currently called main) class deals with initializing all GUI panels, buttons, etc. After, it initializes the classes needed to run the game (e.g., Bag, Board, Cell, Player, Tile, Engine, Computer). For example, the 15 x 15 cell arraay located from the board object represents the scrabble board. Then, it connects these objects to the GUI, so when you press a button, an action is performed on the application and the object variables change. When the player clicks on the tile button in their rack panel, a variable "tileSelected" in the engine object copies the chosen element from the player object's rack array. After the player choses a tile from their rack, they may press any button on the scrabble board to transfer the "tileSelected" tile variable for the cell object located in the 15 x 15 cell matrix to hold as its own tile variable "Tile". This is only one action that the player may perform; please take a look at the GUI java file for other user actions as they are commented. 
