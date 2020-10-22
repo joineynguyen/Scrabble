@@ -74,7 +74,7 @@ The trie class will simply have the data structure of a trie along with inser an
   
 **FileReader**  
   
-The FileReader class will extract each word per line in the official Scrabble word file called "[Collins Scrabble Words (2019).txt]: https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view".  
+The FileReader class will extract each word per line in the official Scrabble word file called [Collins Scrabble Words (2019).txt]: https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view.  
 
 
 
