@@ -65,7 +65,7 @@ The engine class will mostly contain data structures and algorithms to verify us
   
 **Dictionary**  
   
-The dictionary class will read/store words from the official Scrabble word [file](https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view) in a trie data strcuture to check if words played are in the dictionary.  
+The dictionary class will read/store words from the official Scrabble word [file](https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view) in a trie data strcuture using the Scanner class to then ultimately check if words played are in the dictionary.  
   
 **Trie**  
   
