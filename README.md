@@ -61,8 +61,21 @@ The GUI (currently called main) class deals with initializing all GUI panels, bu
   
 **Engine**  
   
-The engine class will mostly contain data structures and algorithms to verify user moves along with player, computer, and board objects to update scores/data. Are the tiles played all connected vertically or horizontally? Do the tiles form legit words? Do other words that the tiles we played connect to form legit words? What is the score of the word and/or connected words to the initial word play? Everything is calculated in this class. Tries are used to search up a dictionary to declare whether the word(s) played are legit. Stacks are used to keep up with the most recent buttons, tiles, and cells are played. When the player presses the 'undo' button, we pop any relevent stack and have undone an action. Hashmaps are used to locate which button on the scrabble board belongs to which cell in the cell matrix.
+The engine class will mostly contain data structures and algorithms to verify user moves along with player, computer, and board objects to update scores/data. Are the tiles played all connected vertically or horizontally? Do the tiles form legit words? Do other words that the tiles we played connect to form legit words? What is the score of the word and/or connected words to the initial word play? Everything is calculated in this class. Tries are used to search up a dictionary to declare whether the word(s) played are legit. Stacks are used to keep up with the most recent buttons, tiles, and cells are played. When the player presses the 'undo' button, we pop any relevent stack and have undone an action. Hashmaps are used to locate which button on the scrabble board belongs to which cell in the cell matrix.  
   
+**Dictionary**  
+  
+The dictionary class will store words able to play in scrabble and check if words played are in the dictionary.
+This class will use the Trie and FileReader class.  
+  
+**Trie**  
+  
+The trie class will simply have the data structure of a trie along with inser and search methods.  
+  
+**FileReader**  
+  
+The FileReader class will extract each word per line in the official Scrabble word file called "[Collins Scrabble Words (2019).txt]: https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view".  
+
 
 
 
