@@ -65,16 +65,12 @@ The engine class will mostly contain data structures and algorithms to verify us
   
 **Dictionary**  
   
-The dictionary class will store words able to play in scrabble and check if words played are in the dictionary.
-This class will use the Trie and FileReader class.  
+The dictionary class will read/store words from the official Scrabble word [file](https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view) in a trie data strcuture to check if words played are in the dictionary.  
   
 **Trie**  
   
-The trie class will simply have the data structure of a trie along with inser and search methods.  
+The trie class will simply implement the data structure of a trie along with insert and search methods.  
   
-**FileReader**  
-  
-The FileReader class will extract each word per line in the official Scrabble word file called [Collins Scrabble Words (2019).txt](https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view).  
 
 
 
