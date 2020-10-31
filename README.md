@@ -1,4 +1,4 @@
-# Scrabble (In Progress)
+# Scrabble  
 Welcome to my Scrabble board game project.  
 This game will be single player.   
 
