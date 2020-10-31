@@ -7,6 +7,7 @@ import java.util.Collections;
 public class Bag
 {
     private ArrayList<Tile> tiles;
+    public static Tile swappedBlankTile;
     
     public Bag()
     {
@@ -24,6 +25,7 @@ public class Bag
     {
     	return tiles.size() < 1;
     }
+    
     /*
     0 points: Blank x2
     1 point: E ×12, A ×9, I ×9, O ×8, N ×6, R ×6, T ×6, L ×4, S ×4, U ×4
@@ -78,5 +80,114 @@ public class Bag
         Collections.shuffle(tiles);
     }
     
+  //Create tile with chosen letter to swap blank tile
+    public static void swapBlankTile(char chosenLetter)
+	{
+		if(chosenLetter == 'E')
+		{
+			swappedBlankTile = new Tile("E", 1);
+		}
+		else if(chosenLetter == 'A')
+		{
+			swappedBlankTile = new Tile("A", 1);
+		}
+		else if(chosenLetter == 'I')
+		{
+			swappedBlankTile = new Tile("I", 1);
+		}
+		else if(chosenLetter == 'O')
+		{
+			swappedBlankTile = new Tile("O", 1);
+		}
+		else if(chosenLetter == 'N')
+		{
+			swappedBlankTile = new Tile("N", 1);
+		}
+		else if(chosenLetter == 'R')
+		{
+			swappedBlankTile = new Tile("R", 1);
+		}
+		else if(chosenLetter == 'T')
+		{
+			swappedBlankTile = new Tile("T", 1);
+		}
+		else if(chosenLetter == 'L')
+		{
+			swappedBlankTile = new Tile("L", 1);
+		}
+		else if(chosenLetter == 'S')
+		{
+			swappedBlankTile = new Tile("S", 1);
+		}
+		else if(chosenLetter == 'U')
+		{
+			swappedBlankTile = new Tile("U", 1);
+		}
+		else if(chosenLetter == 'D')
+		{
+			swappedBlankTile = new Tile("D", 2);
+		}
+		else if(chosenLetter == 'G')
+		{
+			swappedBlankTile = new Tile("G", 2);
+		}
+		else if(chosenLetter == 'B')
+		{
+			swappedBlankTile = new Tile("B", 3);
+		}
+		else if(chosenLetter == 'C')
+		{
+			swappedBlankTile = new Tile("C", 3);
+		}
+		else if(chosenLetter == 'M')
+		{
+			swappedBlankTile = new Tile("M", 3);
+		}
+		else if(chosenLetter == 'P')
+		{
+			swappedBlankTile = new Tile("P", 3);
+		}
+		else if(chosenLetter == 'F')
+		{
+			swappedBlankTile = new Tile("F", 4);
+		}
+		else if(chosenLetter == 'H')
+		{
+			swappedBlankTile = new Tile("H", 4);
+		}
+		else if(chosenLetter == 'V')
+		{
+			swappedBlankTile = new Tile("V", 4);
+		}
+		else if(chosenLetter == 'W')
+		{
+			swappedBlankTile = new Tile("W", 4);
+		}
+		else if(chosenLetter == 'Y')
+		{
+			swappedBlankTile = new Tile("Y", 4);
+		}
+		else if(chosenLetter == 'K')
+		{
+			swappedBlankTile = new Tile("K", 5);
+		}
+		else if(chosenLetter == 'J')
+		{
+			swappedBlankTile = new Tile("J", 8);
+		}
+		else if(chosenLetter == 'X')
+		{
+			swappedBlankTile = new Tile("X", 8);
+		}
+		else if(chosenLetter == 'Q')
+		{
+			swappedBlankTile = new Tile("Q", 10);
+		}
+		else if(chosenLetter == 'Z')
+		{
+			swappedBlankTile = new Tile("Z", 10);
+		}
+		
+	}
     
 }
