@@ -1,9 +1,11 @@
 package scrabble;
 
+//Tile holds a letter and corresponding points
 public class Tile
 {
     private String letter;
     private int points;
+    
     
     public Tile(String letter, int points)
     {
