@@ -4,18 +4,31 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-
+//Player has rack array for tiles to be played and score integer
 public class Player
 {
     private Tile[] rack; //tiles they have that are ready to be played
-    private Tile[] pendingRack; //to keep up with tiles that they have placed down on board but have not played. Helps with updating rack GUI 
     private int score;
     
     public Player()
     {
     	rack = new Tile[7];
-    	pendingRack = new Tile[7];
     	score = 0;
+    }
+    
+    public String getScore()
+    {
+    	return String.valueOf(score);
+    }
+    
+    public void setScore(int num)
+    {
+    	score = num;
+    }
+    
+    public void addScore(int num)
+    {
+    	score = score + num;
     }
     
     public void shuffleRack()
@@ -79,19 +92,7 @@ public class Player
     
     	}
     }
-    
-    public void addTileToPending(Tile tile)
-    {
-    	for(int i = 0; i < pendingRack.length; i++)
-    	{
-    		if(pendingRack[i] == null)
-    		{
-    			pendingRack[i] = tile;
-    			return;
-    		}
-    	}
-    }
-    
+ 
     public boolean rackIsFull()
     {
     	int count = 0;
@@ -121,22 +122,7 @@ public class Player
     	
     	return count;
     }
-    
-    public int getPendingRackSize()
-    {
-    	int count = 0;
-    	
-    	for(int i = 0; i < pendingRack.length; i++)
-    	{
-    		if(pendingRack[i] != null)
-    		{
-    			count++;
-    		}
-    	}
-    	
-    	return count;
-    }
-    
+
     public Tile[] getRack()
     {
     	return this.rack;
