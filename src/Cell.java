@@ -1,13 +1,11 @@
 package scrabble;
 
-/*
-Any code commented out is due to the fact that Scrabble does not allow diagonal plays
-*/
+//Cells are spaces in scrabble board that holds tiles
 public class Cell
 {
     private Tile tile;
     private Cell top, left, right, bottom; //adjacent cells
-    //private Cell topLeft, topRight, bottomLeft, bottomRight;
+    
     /*
     Some cells have bonus points when tiles are placed on them
     (e.g.: DL = double letter points, TL = triple letter points, 
@@ -62,28 +60,6 @@ public class Cell
        this.bottom = cell;
    }
    
-   /*
-   public void setTopLeft(Cell cell)
-   {
-       this.topLeft = cell;
-   }
-   
-   public void setTopRight(Cell cell)
-   {
-       this.topRight = cell;
-   }
-   
-   public void setBottomLeft(Cell cell)
-   {
-       this.bottomLeft = cell;
-   }
-   
-   public void setBottomRight(Cell cell)
-   {
-       this.bottomRight = cell;
-   }
-   */
-   
    public Cell getTop()
    {
        return this.top;
@@ -104,25 +80,4 @@ public class Cell
        return this.bottom;
    }
    
-   /*
-   public Cell getTopLeft()
-   {
-       return this.topLeft;
-   }
-   
-   public Cell getTopRight()
-   {
-       return this.topRight;
-   }
-   
-   public Cell getBottomLeft()
-   {
-       return this.bottomLeft;
-   }
-   
-   public Cell getBottomRight()
-   {
-       return this.bottomRight;
-   }
-   */
 }
