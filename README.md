@@ -80,8 +80,7 @@ The function goes through several if-cases to make sure the move is legal such a
 Once the if statements are verified and the move is a horizontal move, we peek one cell from the recentlyPlayedCellStack to traverse left with left pointers until we reach empty cell. Then, traverse right with cell's right pointers until we run into the last occupied cell. As we traverse right, we add up the tiles' points and bonuses.  
 Also, if the move is a vertical move, we peek one cell from the recentlyPlayedCellStack to traverse up with cells' top pointers until we reach empty cell. Then, traverse down with cell's bottom pointers until we run into the last occupied cell. As we traverse down, we add up the tiles' points and bonuses.
 
-
-
-
+###### Demonstration:  
+###### **[Demo](https://www.youtube.com/watch?v=GtAticW3GD4)**
 
 
