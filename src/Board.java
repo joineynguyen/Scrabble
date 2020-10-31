@@ -1,7 +1,6 @@
 package scrabble;
 
-//All codes commented out for the reason Scrabble does not allow diagonal plays
-
+//Create and connect cells to imitate a scrabble board
 public class Board
 {
     Cell[][] cellMatrix;
@@ -170,60 +169,5 @@ public class Board
         int newCol = col + 1;
         cellMatrix[row][col].setRight(cellMatrix[row][newCol]);
     }
-    /*
-    public void connectTopLeft(int row, int col, Cell[][] cellMatrix)
-    {
-        if((row - 1) < 0 || (col - 1) < 0)
-        {
-            cellMatrix[row][col].setTopLeft(null);
-            return;
-        }
-        int newRow = row - 1;
-        int newCol = col - 1;
-        
-        cellMatrix[row][col].setTopLeft(cellMatrix[newRow][newCol]);
-        
-    }
-    
-    public void connectTopRight(int row, int col, Cell[][] cellMatrix)
-    {
-        if((row - 1) < 0 || (col + 1) > 14)
-        {
-            cellMatrix[row][col].setTopRight(null);
-            return;
-        }
-        int newRow = row - 1;
-        int newCol = col + 1;
-        
-        cellMatrix[row][col].setTopRight(cellMatrix[newRow][newCol]);
-    }
-    
-    public void connectBottomLeft(int row, int col, Cell[][] cellMatrix)
-    {
-        if((row + 1) > 14 || (col - 1) < 0)
-        {
-            cellMatrix[row][col].setBottomLeft(null);
-            return;
-        }
-        
-        int newRow = row + 1;
-        int newCol = col - 1;
-        
-        cellMatrix[row][col].setBottomLeft(cellMatrix[newRow][newCol]);
-    }
-    
-    public void connectBottomRight(int row, int col, Cell[][] cellMatrix)
-    {
-        if((row + 1) > 14 || (col + 1) > 14)
-        {
-            cellMatrix[row][col].setBottomRight(null);
-            return;
-        }
-        
-        int newRow = row + 1;
-        int newCol = col + 1;
-        
-        cellMatrix[row][col].setBottomRight(cellMatrix[newRow][newCol]);
-    }
-    */
+   
 }
