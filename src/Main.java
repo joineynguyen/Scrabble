@@ -6,38 +6,21 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Stack;
-
-import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 
-public class Main {
+//Main class that creates the GUI and connects object classes
+public class Main
+{
 
 	private JFrame frame;
 	JButton[][] cellButtons; //15x15 button array representing cells in board
 	JButton[] rackButtons; //7 buttons for each tile in player's rack
-	
-	HashMap<JButton, Cell> cellMap = new HashMap<>(); //helps locate board cell by button
-	HashMap<JButton, Tile> rackMap = new HashMap<>(); //helps match rack GUI with actual rack data structure
-	
-	Stack<Tile> recentlyPlayedTileStack = new Stack<>(); //keep chronological order of recent tile/cell/cell button played
-	Stack<Cell> recentlyPlayedCellStack = new Stack<>(); 
-	Stack<JButton> recentlyPlayedCellButtonStack = new Stack<>();
-	
 	
 	JPanel boardPanel; //panel to hold cellButtons array or board of cells
 	JPanel playerPanel; //panel to hold rack panel of tiles to play + player options in game such as skip turn, play tiles inserted into board, etc
@@ -46,10 +29,11 @@ public class Main {
 	Board board;
 	Bag bag;
 	Player player;
-	Tile rackTileSelected; //when players clicks on a tile button in their rack to play on board, this variable stores the tile to copy onto board 
+	Engine engine;
 	
 	private JPanel logoPanel;
 	private JLabel logoLabel;
+	private JLabel scoreLabel;
 	
 	/**
 	 * Launch the application.
@@ -58,8 +42,8 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main window = new Main();
-					window.frame.setVisible(true);
+					Main main = new Main();
+					main.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -87,8 +71,8 @@ public class Main {
 		
 		board = new Board();
 		player = new Player();
+		engine = new Engine(player,board);
 		bag = new Bag();
-		rackTileSelected = null;
 		
 		//create and insert cell buttons into board panel, then connect cell buttons to actual cells in matrix
 		createCellButtons(board.cellMatrix);
@@ -99,6 +83,14 @@ public class Main {
 		
 		updatePlayerRackGUI();
 		
+	}
+	
+	public void newGame()
+	{
+		board = new Board();
+		player = new Player();
+		engine = new Engine(player, board);
+		bag = new Bag();
 	}
 	
 	//CREATING WINDOW AND PANELS - START
@@ -178,19 +170,19 @@ public class Main {
 			public void actionPerformed(ActionEvent e)
 			{
 				//check if stack containing previous move (tile, tile index in player rack, rack button, cell, and cell button all exists to undo previous move as whole. Also denies the ability to undo any move if a tile from rack is currently selected
-				if(recentlyPlayedTileStack.size() > 0  && recentlyPlayedCellStack.size() > 0 && recentlyPlayedCellButtonStack.size() > 0 && rackTileSelected == null)
+				if(engine.recentlyPlayedTileStack.size() > 0  && engine.recentlyPlayedCellStack.size() > 0 && engine.recentlyPlayedCellButtonStack.size() > 0 && engine.rackTileSelected == null)
 				{
-					Tile recentTilePlayed = recentlyPlayedTileStack.pop();
+					Tile recentTilePlayed = engine.recentlyPlayedTileStack.pop();
 					
 					//Return recently played tile rack to player's rack
 					player.addTileToRack(recentTilePlayed);
 					
 					//Set recently cell played to null
-					Cell recentCell = recentlyPlayedCellStack.pop();
+					Cell recentCell = engine.recentlyPlayedCellStack.pop();
 					recentCell.setTile(null);
 					
 					//undo recent cell button played GUI
-					JButton recentCellButton = recentlyPlayedCellButtonStack.pop();
+					JButton recentCellButton = engine.recentlyPlayedCellButtonStack.pop();
 					recentCellButton.setText(recentCell.getBonus());
 					recentCellButton.setBackground(Color.LIGHT_GRAY);
 					
@@ -203,10 +195,57 @@ public class Main {
 		
 		JButton submitButton = new JButton("Submit");
 		actionPanel.add(submitButton);
+		submitButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(engine.checkBoard() == true)
+				{
+					System.out.println("Move passed");
+					scoreLabel.setText(player.getScore()); //Updates player's score on GUI
+					
+					while(true)
+					{
+						if(givePlayerANewTile() == false)
+						{
+							break;
+						}
+					}
+					
+					updatePlayerRackGUI();
+				}
+				else
+				{
+					System.out.println("Move denied");
+				}
+			}
+		});
 		
-		JButton passButton = new JButton("Pass");
-		actionPanel.add(passButton);
+		JButton helpButton = new JButton("Help");
+		helpButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				Help help = new Help();
+				help.setVisible(true);
+			}
+		});
+		helpButton.setBounds(709, 39, 65, 37);
+		playerPanel.add(helpButton);
+		
+		scoreLabel = new JLabel("0");
+		scoreLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		scoreLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		scoreLabel.setBounds(10, 39, 65, 53);
+		playerPanel.add(scoreLabel);
+		
+		JLabel lblNewLabel = new JLabel("pts.");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel.setBounds(85, 48, 43, 42);
+		playerPanel.add(lblNewLabel);
+		
 	}
+	
 	
 	//CREATING WINDOW AND PANELS - END
 		
@@ -232,14 +271,27 @@ public class Main {
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
-						if(rackTileSelected != null && currentCell.getTile() == null)
+						if(engine.rackTileSelected != null && currentCell.getTile() == null)
 						{
-							currentCell.setTile(rackTileSelected); //set cell matched with board button pressed to store current tile from rack chosen
-							cellButton.setText(rackTileSelected.getLetter()); //set cell button text by tile from rack played
+							if(engine.rackTileSelected.getLetter() == "-")
+							{
+								chooseTileDialog ct = new chooseTileDialog();
+								ct.setModal(true);
+								ct.setVisible(true);
+								currentCell.setTile(Bag.swappedBlankTile); //set cell matched with board button pressed to store chosen swapped blank tile
+								cellButton.setText(Bag.swappedBlankTile.getLetter()); //set cell button text by chosen swapped blank tile
+
+							}
+							else
+							{
+								currentCell.setTile(engine.rackTileSelected); //set cell matched with board button pressed to store current tile from rack chosen
+								cellButton.setText(engine.rackTileSelected.getLetter()); //set cell button text by tile from rack played
+							}
+							
 							cellButton.setBackground(Color.ORANGE); 
-							rackTileSelected = null;
-							recentlyPlayedCellStack.push(currentCell); //push cell played into stack for undo-ing purposes
-							recentlyPlayedCellButtonStack.push(cellButton);
+							engine.rackTileSelected = null;
+							engine.recentlyPlayedCellStack.push(currentCell); //push cell played into stack for undo-ing purposes
+							engine.recentlyPlayedCellButtonStack.push(cellButton);
 						}
 					}
 				});
@@ -265,7 +317,7 @@ public class Main {
 		//rack button 1
 		JButton rackButton1 = new JButton();
 		rackButton1.setBackground(Color.ORANGE);
-		rackButton1.setText("(" + player.getRack()[0].getPoints() + ") " + player.getRack()[0].getLetter()); //set tile's letter and points to show on button
+		rackButton1.setText(player.getRack()[0].getLetter()); //set tile's letter and points to show on button
 		
 		rackButton1.addActionListener(new ActionListener()
 		{
@@ -273,10 +325,10 @@ public class Main {
 			public void actionPerformed(ActionEvent e)
 			{
 				//check if player has no tiles from rack selected before selecting another tile from rack. Also update rack tile button GUI
-				if(rackTileSelected == null && rackButton1.getText() != "")
+				if(engine.rackTileSelected == null && rackButton1.getText() != "")
 				{
-					rackTileSelected = player.getAndRemoveFromRackAt(0); //to transfer tile from player's rack onto board
-					recentlyPlayedTileStack.push(rackTileSelected); //for undo purposes
+					engine.rackTileSelected = player.getAndRemoveFromRackAt(0); //to transfer tile from player's rack onto board
+					engine.recentlyPlayedTileStack.push(engine.rackTileSelected); //for undo purposes
 
 					rackButton1.setBackground(Color.LIGHT_GRAY); //update rack tile button GUI
 					rackButton1.setText(""); //update rack tile button GUI
@@ -292,17 +344,17 @@ public class Main {
 		//rack button 2
 		JButton rackButton2 = new JButton();
 		rackButton2.setBackground(Color.ORANGE);
-		rackButton2.setText("(" + player.getRack()[1].getPoints() + ") " + player.getRack()[1].getLetter());
+		rackButton2.setText(player.getRack()[1].getLetter());
 		
 		rackButton2.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(rackTileSelected == null && rackButton2.getText() != "")
+				if(engine.rackTileSelected == null && rackButton2.getText() != "")
 				{
-					rackTileSelected = player.getAndRemoveFromRackAt(1);
-					recentlyPlayedTileStack.push(rackTileSelected);
+					engine.rackTileSelected = player.getAndRemoveFromRackAt(1);
+					engine.recentlyPlayedTileStack.push(engine.rackTileSelected);
 				
 					rackButton2.setBackground(Color.LIGHT_GRAY);
 					rackButton2.setText("");
@@ -319,17 +371,17 @@ public class Main {
 		//rack button 3
 		JButton rackButton3 = new JButton();
 		rackButton3.setBackground(Color.ORANGE);
-		rackButton3.setText("(" + player.getRack()[2].getPoints() + ") " + player.getRack()[2].getLetter());
+		rackButton3.setText(player.getRack()[2].getLetter());
 		
 		rackButton3.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(rackTileSelected == null && rackButton3.getText() != "")
+				if(engine.rackTileSelected == null && rackButton3.getText() != "")
 				{
-					rackTileSelected = player.getAndRemoveFromRackAt(2);
-					recentlyPlayedTileStack.push(rackTileSelected);
+					engine.rackTileSelected = player.getAndRemoveFromRackAt(2);
+					engine.recentlyPlayedTileStack.push(engine.rackTileSelected);
 		
 					rackButton3.setBackground(Color.LIGHT_GRAY);
 					rackButton3.setText("");
@@ -345,17 +397,17 @@ public class Main {
 		//rack button 4
 		JButton rackButton4 = new JButton();
 		rackButton4.setBackground(Color.ORANGE);
-		rackButton4.setText("(" + player.getRack()[3].getPoints() + ") " + player.getRack()[3].getLetter());
+		rackButton4.setText(player.getRack()[3].getLetter());
 		
 		rackButton4.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(rackTileSelected == null && rackButton4.getText() != "")
+				if(engine.rackTileSelected == null && rackButton4.getText() != "")
 				{
-					rackTileSelected = player.getAndRemoveFromRackAt(3);
-					recentlyPlayedTileStack.push(rackTileSelected);
+					engine.rackTileSelected = player.getAndRemoveFromRackAt(3);
+					engine.recentlyPlayedTileStack.push(engine.rackTileSelected);
 				
 					rackButton4.setBackground(Color.LIGHT_GRAY);
 					rackButton4.setText("");
@@ -371,17 +423,17 @@ public class Main {
 		//rack button 5
 		JButton rackButton5 = new JButton();
 		rackButton5.setBackground(Color.ORANGE);
-		rackButton5.setText("(" + player.getRack()[4].getPoints() + ") " + player.getRack()[4].getLetter());
+		rackButton5.setText(player.getRack()[4].getLetter());
 		
 		rackButton5.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(rackTileSelected == null && rackButton5.getText() != "")
+				if(engine.rackTileSelected == null && rackButton5.getText() != "")
 				{
-					rackTileSelected = player.getAndRemoveFromRackAt(4);
-					recentlyPlayedTileStack.push(rackTileSelected);
+					engine.rackTileSelected = player.getAndRemoveFromRackAt(4);
+					engine.recentlyPlayedTileStack.push(engine.rackTileSelected);
 				
 					rackButton5.setBackground(Color.LIGHT_GRAY);
 					rackButton5.setText("");
@@ -397,17 +449,17 @@ public class Main {
 		//rack button 6
 		JButton rackButton6 = new JButton();
 		rackButton6.setBackground(Color.ORANGE);
-		rackButton6.setText("(" + player.getRack()[5].getPoints() + ") " + player.getRack()[5].getLetter());
+		rackButton6.setText(player.getRack()[5].getLetter());
 		
 		rackButton6.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(rackTileSelected == null && rackButton6.getText() != "")
+				if(engine.rackTileSelected == null && rackButton6.getText() != "")
 				{
-					rackTileSelected = player.getAndRemoveFromRackAt(5);
-					recentlyPlayedTileStack.push(rackTileSelected);
+					engine.rackTileSelected = player.getAndRemoveFromRackAt(5);
+					engine.recentlyPlayedTileStack.push(engine.rackTileSelected);
 			
 					rackButton6.setBackground(Color.LIGHT_GRAY);
 					rackButton6.setText("");
@@ -423,17 +475,17 @@ public class Main {
 		//rack button 7
 		JButton rackButton7 = new JButton();
 		rackButton7.setBackground(Color.ORANGE);
-		rackButton7.setText("(" + player.getRack()[6].getPoints() + ") " + player.getRack()[6].getLetter());
+		rackButton7.setText(player.getRack()[6].getLetter());
 		
 		rackButton7.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(rackTileSelected == null && rackButton7.getText() != "")
+				if(engine.rackTileSelected == null && rackButton7.getText() != "")
 				{
-					rackTileSelected = player.getAndRemoveFromRackAt(6);
-					recentlyPlayedTileStack.push(rackTileSelected);
+					engine.rackTileSelected = player.getAndRemoveFromRackAt(6);
+					engine.recentlyPlayedTileStack.push(engine.rackTileSelected);
 				
 					rackButton7.setBackground(Color.LIGHT_GRAY);
 					rackButton7.setText("");
@@ -453,16 +505,17 @@ public class Main {
 	//UPDATING BUTTONS/DATA STRUCTURES - START
 	
 	//Add a tile from bag to player's rack if possible
-	private void givePlayerANewTile()
+	private boolean givePlayerANewTile()
 	{
 		//cannot add tiles to player's rack if bag is empty or rack is full (rack has more than 7 elements)
-		if(bag.bagIsEmpty() || (player.getRackSize() + player.getPendingRackSize()) > 7)
+		if(bag.bagIsEmpty() || (player.getRackSize() == 7))
 		{
-			return;
+			return false;
 		}
 		
 		Tile newTile = bag.getNextTile();
 		player.addTileToRack(newTile);
+		return true;
 	}
 	
 	//Add 7 tiles from bag to player's rack at start of game
@@ -480,7 +533,7 @@ public class Main {
 		{
 			if(player.getRack()[i] != null)
 			{
-				rackButtons[i].setText("(" + player.getRack()[i].getPoints() + ") " + player.getRack()[i].getLetter());
+				rackButtons[i].setText(player.getRack()[i].getLetter());
 				rackButtons[i].setBackground(Color.ORANGE);
 			}
 			else if(player.getRack()[i] == null)
