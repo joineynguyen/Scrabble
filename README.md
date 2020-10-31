@@ -1,6 +1,6 @@
 # Scrabble (In Progress)
 Welcome to my Scrabble board game project.  
-This game will be single player vs computer.  
+This game will be single player.   
 
 ###### **Motivation:**  
 I wanted to make this game because my predictions on the data structures used in this game will be fun to work and solidify with.
@@ -17,7 +17,6 @@ It will connect all of the cells to one another by each of their own set of poin
 **Scrabble Cell**  
 
 ![Cell Adjacency Diagram](https://user-images.githubusercontent.com/54327713/94984360-d40a6a00-0510-11eb-9281-5bce37bad820.jpg)   
-(UPDATE 10/3/2020) We are going to get rid of the diagonal cells since Scrabble doesn't allow diagonal plays.  
 This diagram will help visualize the tile's adjacency to other tiles on the board.  
 X refers to which row and Y is which column.
 Notice the formula near the arrow, this is going to be used when connecting all cells when initializing the board.
@@ -48,12 +47,7 @@ The game will remove tiles from this bag's Tile array and move it to the player 
 The player will have a Tile array 'rack' for potential word play and an integer variable 'score'.  
 They are able to shuffle the tiles in their rack as well as organize it so that tiles will hug the left side of the rack. These actions will be available on the GUI as a 'shuffle' button. The shuffle button will not do anything if the player's rack is empty or includes only one tile.  
 The player's button 'undo' will obviously undo their tile placement on the board and bring it back onto their rack (both array and GUI).  
-The button 'pass' will pass their turn and let the computer go if they have trouble making out words or for any strategic reason.  
-Finally, the button 'submit' will check the player's tile placement on the board if it does make a word. If a legit word is played, then the score is calculated and computer's turn. If not, nothing will happen.  
-  
-**Computer**  
-  
-The computer class will inherit from the player class plus user automation methods.  
+Finally, the button 'submit' will check the player's tile placement on the board if it does make a word. If a legit word is played, then the score is updated. If not, nothing will happen and the score remains the same.  
   
 **Main/GUI**  
   
@@ -65,12 +59,28 @@ The engine class will mostly contain data structures and algorithms to verify us
   
 **Dictionary**  
   
-The dictionary class will read/store words from the official Scrabble word [file](https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view) in a trie data strcuture using the Scanner class to then ultimately check if words played are in the dictionary.  
+The dictionary class uses the Scanner class to read words from the official Scrabble word [file](https://drive.google.com/file/d/1oGDf1wjWp5RF_X9C7HoedhIWMh5uJs8s/view) and save each word in a trie data structure to check if words played are in the dictionary.  
   
 **Trie**  
   
 The trie class will simply implement the data structure of a trie along with insert and search methods.  
   
+###### **Algorithm**  
+  
+The algorithm to score player's move is the function 'checkBoard' in the Engine class.  
+The function goes through several if-cases to make sure the move is legal such as: (1)if it has more than 0 tiles played for non-initial moves, (2)if it's not 0 or 1 tile move for initial move, (3)the center board cell is filled, (4)if the move is connected either horizontally/vertically, (5)if the move is connected to previous moves for non-inital move, (6)if horizontal words on board are legal, and (7)if vertical words on board are legal.  
+  
+(1),(2): Checks the engine.recentlyPlayedCellStack size and boolean variable initialMove.  
+(3): Checks board.cellMatrix at row and column 7 if not null.  
+(4): By peeking one cell from the engine.recentlyPlayedCellStack and only traversing left-to-right or top-to-bottom with cell's pointers to confirm all recent tiles played are found.  
+(5): By converting the engine.recentlyPlayedCellStack to an array, then iterating through each recently played cell and checking each cells' left, right, top, and bottom pointers. If at least one of the recently played cell's pointer points at a cell stored in engine.occupiedCell arraylist then we know it is connected to a previous move.  
+(6): Iterate through the 15 x 15 cell matrix left-to-right and row by row to add consecutive occupied cells' tile's letters in a string builder to then check the dictionary by using a trie data structure. The string builder stops adding and resets once a null cell is reached.  
+(7): Iterate through the 15 x 15 cell matrix top-to-bottom and column by column to add consecutive occupied cells' tile's letters in a string builder to then check the dictionary by using a trie data structure. The string builder stops adding and resets once a null cell is reached.
+  
+Once the if statements are verified and the move is a horizontal move, we peek one cell from the recentlyPlayedCellStack to traverse left with left pointers until we reach empty cell. Then, traverse right with cell's right pointers until we run into the last occupied cell. As we traverse right, we add up the tiles' points and bonuses.  
+Also, if the move is a vertical move, we peek one cell from the recentlyPlayedCellStack to traverse up with cells' top pointers until we reach empty cell. Then, traverse down with cell's bottom pointers until we run into the last occupied cell. As we traverse down, we add up the tiles' points and bonuses.
+
+
 
 
 
